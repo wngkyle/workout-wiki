@@ -11,6 +11,8 @@ const Equipment = require('./resolvers/Equipment')
 const Exercise = require('./resolvers/Exercise')
 const MovementPattern = require('./resolvers/MovementPattern')
 const TargetMuscle = require('./resolvers/TargetMuscle')
+const User = require('./resolvers/User')
+const RequestedMovement = require('./resolvers/RequestedMovement')
 
 const prisma = new PrismaClient()
 
@@ -22,7 +24,11 @@ const resolvers = {
     Exercise,
     MovementPattern,
     TargetMuscle,
+    User,
+    RequestedMovement,
 }
+
+
 
 const server = new ApolloServer({
     typeDefs: fs.readFileSync(
@@ -34,10 +40,10 @@ const server = new ApolloServer({
       return {
         ...req,
         prisma,
-        userId: null
+        userId: 
+          req && req.headers.authorization ? getUserId(req) : null
       }
     },
-    introspection: true,
 });
 
 server

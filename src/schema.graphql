@@ -1,12 +1,16 @@
 type Query {
-    browseMovement: [Movement!]!
-    browseUser: [User!]!
+    movement: [Movement!]!
+    user: [User!]!
+    exercise: [Exercise!]!
+    targetMuscle: [TargetMuscle!]!
+    movementPattern: [MovementPattern!]!
+    equipment: [Equipment!]!
 }
 
 type Mutation {
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload 
-    addMovement(name: String!, skillLevel: String!, description: String!, exercise: String!, targetMuscle: String!, movementPattern: String!, equipment: String!): Movement
+    requestMovement(name: String!, skillLevel: String!, description: String!, exercise: String!, targetMuscle: String!, movementPattern: String!, equipment: String!): RequestedMovement!
     addExercise(type: String!): Exercise
     addTargetMuscle(part: String!): TargetMuscle
     addMovementPattern(pattern: String!): MovementPattern
@@ -17,6 +21,19 @@ type User {
     id: ID!
     name: String!
     email: String!
+    postedMovement: [Movement!]!
+}
+
+type RequestedMovement {
+    id: ID!
+    name: String!
+    skillLevel: String!
+    description: String!
+    exercise: Exercise!
+    targetMuscle: TargetMuscle!
+    movementPattern: MovementPattern!
+    equipment: Equipment!
+    postedBy: User!
 }
 
 type Movement {
@@ -35,24 +52,28 @@ type Exercise {
     id: ID!
     type: String!
     movement: [Movement!]!
+    requestedMovement: [RequestedMovement!]!
 }
 
 type TargetMuscle {
     id: ID!
     part: String!
     movement: [Movement!]!
+    requestedMovement: [RequestedMovement!]!
 }
 
 type MovementPattern {
     id: ID!
     pattern: String!
     movement: [Movement!]!
+    requestedMovement: [RequestedMovement!]!
 }
 
 type Equipment {
     id: ID!
     type: String!
     movement: [Movement!]!
+    requestedMovement: [RequestedMovement!]!
 }
 
 type AuthPayload {

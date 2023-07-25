@@ -1,5 +1,5 @@
 function exercise(parent, args, context, info) {
-    return context.prisma.movement.findUnique({
+    return context.prisma.requestedMovement.findUnique({
         where: {
             id: parent.id
         }
@@ -7,7 +7,7 @@ function exercise(parent, args, context, info) {
 }
 
 function targetMuscle(parent, args, context, info) {
-    return context.prisma.movement.findUnique({
+    return context.prisma.requestedMovement.findUnique({
         where: {
             id: parent.id
         }
@@ -15,7 +15,7 @@ function targetMuscle(parent, args, context, info) {
 }
 
 function movementPattern(parent, args, context, info) {
-    return context.prisma.movement.findUnique({
+    return context.prisma.requestedMovement.findUnique({
         where: {
             id: parent.id
         }
@@ -23,7 +23,7 @@ function movementPattern(parent, args, context, info) {
 }
 
 function equipment(parent, args, context, info) {
-    return context.prisma.movement.findUnique({
+    return context.prisma.requestedMovement.findUnique({
         where: {
             id: parent.id
         }
@@ -31,7 +31,7 @@ function equipment(parent, args, context, info) {
 }
 
 function postedBy(parent, args, context, info) {
-    return context.prisma.movement.findUnique({
+    return context.prisma.requestedMovement.findUnique({
         where: {
             id: parent.id
         }

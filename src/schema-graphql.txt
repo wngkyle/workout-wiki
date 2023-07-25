@@ -1,6 +1,6 @@
 type Query {
-    browseMovement: [Movement!]!
-    browseUser: [User!]!
+    movement: [Movement!]!
+    user: [User!]!
 }
 
 type Mutation {

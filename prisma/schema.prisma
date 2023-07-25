@@ -15,6 +15,25 @@ model User {
   name                String
   email               String                @unique
   password            String 
+  postedMovement      Movement[]
+  requestedMovement   RequestedMovement[]
+}
+
+model RequestedMovement {
+  id                  Int                @id @default(autoincrement())
+  name                String
+  skillLevel          String
+  description         String
+  exercise            Exercise?          @relation(fields: [exerciseId], references: [id])
+  exerciseId          Int?  
+  targetMuscle        TargetMuscle?      @relation(fields: [targetMuscleId], references: [id])
+  targetMuscleId      Int?
+  movementPattern     MovementPattern?   @relation(fields: [movementPatternId], references: [id])
+  movementPatternId   Int?
+  equipment           Equipment?         @relation(fields: [equipmentId], references: [id])
+  equipmentId         Int?
+  postedBy            User?              @relation(fields: [postedById], references: [id])
+  postedById          Int?
 }
 
 model Movement {
@@ -30,29 +49,35 @@ model Movement {
   movementPatternId   Int?
   equipment           Equipment?         @relation(fields: [equipmentId], references: [id])
   equipmentId         Int?
+  postedBy            User?              @relation(fields: [postedById], references: [id])
+  postedById          Int?
 }
 
 model Exercise { 
   id                  Int                   @id @default(autoincrement())
   movement            Movement[]
+  requestedMovement   RequestedMovement[]
   type                String
 }
 
 model TargetMuscle {
   id                  Int                   @id @default(autoincrement())
   movement            Movement[]
+  requestedMovement   RequestedMovement[]
   part                String
 }
 
 model MovementPattern {
   id                  Int                   @id @default(autoincrement())
   movement            Movement[]
+  requestedMovement   RequestedMovement[]
   pattern             String
 }
 
 model Equipment {
   id                  Int                   @id @default(autoincrement())
   movement            Movement[]
+  requestedMovement   RequestedMovement[]
   type                String
 }
 

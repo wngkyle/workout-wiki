@@ -30,7 +30,9 @@ async function login(parent, args, context, info) {
     }
 }
 
-async function addMovement(parent, args, context, info) {
+async function requestMovement(parent, args, context, info) {
+    const userId = context.userId
+
     let exercise = await context.prisma.exercise.findFirst({
         where: {
             type: args.exercise
@@ -79,7 +81,7 @@ async function addMovement(parent, args, context, info) {
             }
         })
     }
-    const newMovement = await context.prisma.movement.create({
+    const newMovement = await context.prisma.requestedMovement.create({
         data: {
             name: args.name,
             skillLevel: args.skillLevel,
@@ -88,6 +90,7 @@ async function addMovement(parent, args, context, info) {
             equipment: { connect: { id: equipment.id } },
             targetMuscle: { connect: { id: targetMuscle.id } },
             movementPattern: { connect: { id: movementPattern.id } },
+            postedBy: { connect: { id: userId } }
         }
     })
     return newMovement
@@ -136,5 +139,5 @@ module.exports = {
     addTargetMuscle,
     addMovementPattern,
     addEquipment,
-    addMovement,
+    requestMovement,
 }
