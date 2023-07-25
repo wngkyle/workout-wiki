@@ -7,6 +7,10 @@ const { getUserId } = require('./util')
 const Mutation = require('./resolvers/Mutation')
 const Query = require('./resolvers/Query')
 const Movement = require('./resolvers/Movement')
+const Equipment = require('./resolvers/Equipment')
+const Exercise = require('./resolvers/Exercise')
+const MovementPattern = require('./resolvers/MovementPattern')
+const TargetMuscle = require('./resolvers/TargetMuscle')
 
 const prisma = new PrismaClient()
 
@@ -14,6 +18,10 @@ const resolvers = {
     Query,
     Mutation,
     Movement,
+    Equipment,
+    Exercise,
+    MovementPattern,
+    TargetMuscle,
 }
 
 const server = new ApolloServer({
@@ -26,6 +34,7 @@ const server = new ApolloServer({
       return {
         ...req,
         prisma,
+        userId: null
       }
     },
     introspection: true,
