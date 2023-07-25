@@ -1,0 +1,61 @@
+type Query {
+    browseMovement: [Movement!]!
+    browseUser: [User!]!
+}
+
+type Mutation {
+    signup(email: String!, password: String!, name: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload 
+    addMovement(name: String!, skillLevel: String!, description: String!, exercise: String!, targetMuscle: String!, movementPattern: String!, equipment: String!): Movement
+    addExercise(type: String!): Exercise
+    addTargetMuscle(part: String!): TargetMuscle
+    addMovementPattern(pattern: String!): MovementPattern
+    addEquipment(type: String!): Equipment
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Movement {
+    id: ID!
+    name: String!
+    skillLevel: String!
+    description: String!
+    exercise: Exercise!
+    targetMuscle: TargetMuscle!
+    movementPattern: MovementPattern!
+    equipment: Equipment!
+    postedBy: User!
+}
+
+type Exercise {
+    id: ID!
+    type: String!
+    movement: [Movement!]!
+}
+
+type TargetMuscle {
+    id: ID!
+    part: String!
+    movement: [Movement!]!
+}
+
+type MovementPattern {
+    id: ID!
+    pattern: String!
+    movement: [Movement!]!
+}
+
+type Equipment {
+    id: ID!
+    type: String!
+    movement: [Movement!]!
+}
+
+type AuthPayload {
+    token: String
+    user: User
+}
