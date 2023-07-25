@@ -15,8 +15,16 @@ model User {
   name                String
   email               String                @unique
   password            String 
+  bookmark            Bookmark?
   postedMovement      Movement[]
   requestedMovement   RequestedMovement[]
+}
+
+model Bookmark {
+  id                  Int                @id @default(autoincrement())
+  movement            Movement[]
+  user                User               @relation(fields: [userId], references: [id])
+  userId              Int                @unique
 }
 
 model RequestedMovement {
@@ -51,6 +59,7 @@ model Movement {
   equipmentId         Int?
   postedBy            User?              @relation(fields: [postedById], references: [id])
   postedById          Int?
+  bookmark            Bookmark[]
 }
 
 model Exercise { 

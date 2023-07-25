@@ -6,6 +6,11 @@ async function signup(parent, args, context, info) {
     const password = await bcrypt.hash(args.password, 10)
     const user = await context.prisma.user.create({ data: { ...args, password }})
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
+    const bookmark = await context.prisma.bookmark.create({
+        data: {
+            user: { connect: { id: user.id } }
+        }
+    })
 
     return {
         token,
@@ -132,6 +137,25 @@ async function addEquipment(parent, args, context, info) {
     return newEquipment
 }
 
+async function addBookmark(parent, args, context, info) {
+    const userId = context.userId
+    const user = await context.prisma.user.findUnique({
+        where: {
+            id: userId
+        }
+    })
+    const bookmark = await context.prisma.bookmark.update({
+        where: {
+            userId: userId
+        },
+        data: {
+            movement: { connect: { id: args.movementId } }
+        },
+    })
+    console.log(bookmark)
+    return user
+}
+
 module.exports = {
     signup,
     login,
@@ -140,4 +164,5 @@ module.exports = {
     addMovementPattern,
     addEquipment,
     requestMovement,
+    addBookmark,
 }

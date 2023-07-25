@@ -15,13 +15,22 @@ type Mutation {
     addTargetMuscle(part: String!): TargetMuscle
     addMovementPattern(pattern: String!): MovementPattern
     addEquipment(type: String!): Equipment
+    addBookmark(movementName: String, movementId: Int): User
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
+    bookmark: Bookmark!
     postedMovement: [Movement!]!
+    requestedMovement: [RequestedMovement!]!
+}
+
+type Bookmark {
+    id: ID!
+    movement: [Movement!]!
+    user: User!
 }
 
 type RequestedMovement {
