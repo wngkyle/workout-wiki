@@ -48,7 +48,7 @@ async function movement(parent, args, context, info) {
     return movements
 }
 
-function exercise(parent, args, context, info) {
+async function exercise(parent, args, context, info) {
     const where = args.filter 
         ? {
             type: { 
@@ -56,7 +56,7 @@ function exercise(parent, args, context, info) {
                 mode: 'insensitive',
             } ,
         } : {}
-    const exercises = context.prisma.exercise.findMany({
+    const exercises = await context.prisma.exercise.findMany({
         where,
         skip: args.skip,
         take: args.take,
@@ -64,7 +64,7 @@ function exercise(parent, args, context, info) {
     return exercises
 }
 
-function targetMuscle(parent, args, context, info) {
+async function targetMuscle(parent, args, context, info) {
     const where = args.filter
         ? {
             part: { 
@@ -72,7 +72,7 @@ function targetMuscle(parent, args, context, info) {
                 mode: 'insensitive', 
             } 
         } : {}
-    const targetMuscles = context.prisma.targetMuscle.findMany({
+    const targetMuscles = await context.prisma.targetMuscle.findMany({
         where,
         skip: args.skip,
         take: args.take,
@@ -80,7 +80,7 @@ function targetMuscle(parent, args, context, info) {
     return targetMuscles
 }
 
-function movementPattern(parent, args, context, info) {
+async function movementPattern(parent, args, context, info) {
     const where = args.filter
         ? {
             pattern: { 
@@ -88,7 +88,7 @@ function movementPattern(parent, args, context, info) {
                 mode: 'insensitive',
             } 
         } : {}
-    const movementPatterns = context.prisma.movementPattern.findMany({
+    const movementPatterns = await context.prisma.movementPattern.findMany({
         where,
         skip: args.skip,
         take: args.take,
@@ -96,7 +96,7 @@ function movementPattern(parent, args, context, info) {
     return movementPatterns
 }
 
-function equipment(parent, args, context, info) {
+async function equipment(parent, args, context, info) {
     const where = args.filter
         ? {
             type: { 
@@ -104,13 +104,15 @@ function equipment(parent, args, context, info) {
                 mode: 'insensitive',
             } 
         } : {}
-    const equipments = context.prisma.equipment.findMany({
+    const equipments = await context.prisma.equipment.findMany({
         where,
         skip: args.skip,
         take: args.take,
     })
     return equipments
 }
+
+
 
 module.exports = {
     user,
