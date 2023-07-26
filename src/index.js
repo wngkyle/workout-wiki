@@ -13,6 +13,7 @@ const MovementPattern = require('./resolvers/MovementPattern')
 const TargetMuscle = require('./resolvers/TargetMuscle')
 const User = require('./resolvers/User')
 const RequestedMovement = require('./resolvers/RequestedMovement')
+const Bookmark = require('./resolvers/Bookmark')
 
 const prisma = new PrismaClient()
 
@@ -26,6 +27,7 @@ const resolvers = {
     TargetMuscle,
     User,
     RequestedMovement,
+    Bookmark,
 }
 
 const server = new ApolloServer({

@@ -1,10 +1,10 @@
 type Query {
-    movement: [Movement!]!
-    user: [User!]!
-    exercise: [Exercise!]!
-    targetMuscle: [TargetMuscle!]!
-    movementPattern: [MovementPattern!]!
-    equipment: [Equipment!]!
+    movement(filter: String, skip: Int, take: Int): [Movement!]!
+    user(filter: String, skip: Int, take: Int): [User!]!
+    exercise(filter: String, skip: Int, take: Int): [Exercise!]!
+    targetMuscle(filter: String, skip: Int, take: Int): [TargetMuscle!]!
+    movementPattern(filter: String, skip: Int, take: Int): [MovementPattern!]!
+    equipment(filter: String, skip: Int, take: Int): [Equipment!]!
 }
 
 type Mutation {
@@ -15,7 +15,7 @@ type Mutation {
     addTargetMuscle(part: String!): TargetMuscle
     addMovementPattern(pattern: String!): MovementPattern
     addEquipment(type: String!): Equipment
-    addBookmark(movementName: String, movementId: Int): User
+    addBookmark(movementName: String, movementId: Int): Bookmark
 }
 
 type User {

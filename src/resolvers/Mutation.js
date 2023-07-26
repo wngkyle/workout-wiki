@@ -139,12 +139,7 @@ async function addEquipment(parent, args, context, info) {
 
 async function addBookmark(parent, args, context, info) {
     const userId = context.userId
-    const user = await context.prisma.user.findUnique({
-        where: {
-            id: userId
-        }
-    })
-    const bookmark = await context.prisma.bookmark.update({
+    const updatedBookmark = await context.prisma.bookmark.update({
         where: {
             userId: userId
         },
@@ -152,8 +147,7 @@ async function addBookmark(parent, args, context, info) {
             movement: { connect: { id: args.movementId } }
         },
     })
-    console.log(bookmark)
-    return user
+    return updatedBookmark
 }
 
 module.exports = {
