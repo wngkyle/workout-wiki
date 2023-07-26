@@ -11,21 +11,46 @@ type Query {
 type Mutation {
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload 
+    adminSignUp(email: String!, password: String!, name: String!, adminSignupKey: String!): AdminAuthPayload
+    adminLogin(email: String!, password: String!): AdminAuthPayload
     requestMovement(name: String!, skillLevel: String!, description: String!, exercise: String!, targetMuscle: String!, movementPattern: String!, equipment: String!): RequestedMovement!
     addExercise(type: String!): Exercise
     addTargetMuscle(part: String!): TargetMuscle
     addMovementPattern(pattern: String!): MovementPattern
     addEquipment(type: String!): Equipment
     addBookmark(movementName: String, movementId: Int): Bookmark
+    approveBookmark(requestedMovementId: Int, requestedMovementName: String): Movement
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
-    bookmark: Bookmark!
+    bookmark: Bookmark
     postedMovement: [Movement!]!
     requestedMovement: [RequestedMovement!]!
+}
+
+type Admin {
+    id: ID!
+    name: String!
+    email: String!
+    role: Role     
+}
+
+enum Role {
+    User
+    Admin
+}
+
+type AuthPayload {
+    token: String
+    user: User
+}
+
+type AdminAuthPayload {
+    token: String
+    admin: Admin
 }
 
 type Bookmark {
@@ -84,11 +109,6 @@ type Equipment {
     type: String!
     movement: [Movement!]!
     requestedMovement: [RequestedMovement!]!
-}
-
-type AuthPayload {
-    token: String
-    user: User
 }
 
 input MovementOrderByInput {

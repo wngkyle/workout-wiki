@@ -4,7 +4,9 @@ const { APP_SECRET, getUserId } = require('../util')
 
 async function signup(parent, args, context, info) {
     const password = await bcrypt.hash(args.password, 10)
-    const user = await context.prisma.user.create({ data: { ...args, password }})
+    const user = await context.prisma.user.create({ 
+        data: { ...args, password }
+    })
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
     const bookmark = await context.prisma.bookmark.create({
         data: {
@@ -18,6 +20,26 @@ async function signup(parent, args, context, info) {
     }
 }
 
+async function adminSignUp(parent, args, context, info) {
+    if (args.adminSignupKey !== process.env.ADMIN_SIGNUP) {
+        throw new Error("Incorrect signup key")
+    }
+    const password = await bcrypt.hash(args.password, 10)
+    const admin = await context.prisma.admin.create({
+        data: { 
+            name: args.name,
+            email: args.email,
+            password: password,
+        }
+    })
+    const token = jwt.sign({ adminId: admin.id }, process.env.APP_SECRET_ADMIN)
+    
+    return {
+        token,
+        admin,
+    }
+}
+ 
 async function login(parent, args, context, info) {
     const user = await context.prisma.user.findUnique({ where: { email: args.email } })
     if (!user) {
@@ -35,8 +57,29 @@ async function login(parent, args, context, info) {
     }
 }
 
+async function adminLogin(parent, args, context, info) {
+    const admin = await context.prisma.admin.findFirst({ where: { email: args.email } })
+    if (!admin) {
+        throw new Error("No such admin found")
+    }
+    const valid = await bcrypt.compare(args.password, admin.password)
+    if (!valid) {
+        throw new Error("Invalid Password") 
+    }
+    const token = jwt.sign({ adminId: admin.id }, process.env.APP_SECRET_ADMIN)
+
+    return {
+        token,
+        admin
+    }
+}
+
 async function requestMovement(parent, args, context, info) {
     const userId = context.userId
+
+    if (userId === null) {
+        throw new Error("User has not logged in or please sign up for an account")
+    }
 
     let exercise = await context.prisma.exercise.findFirst({
         where: {
@@ -101,6 +144,10 @@ async function requestMovement(parent, args, context, info) {
     return newMovement
 }
 
+async function approveBookmark(parent, args, context, info) {
+    
+}
+
 async function addExercise(parent, args, context, info) {
     const newExercise = await context.prisma.exercise.create({
         data: {
@@ -159,4 +206,6 @@ module.exports = {
     addEquipment,
     requestMovement,
     addBookmark,
+    adminSignUp,
+    adminLogin,
 }

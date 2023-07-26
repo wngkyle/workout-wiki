@@ -14,10 +14,24 @@ model User {
   id                  Int                   @id @default(autoincrement())
   name                String
   email               String                @unique
-  password            String 
+  password            String      
+  role                Role                  @default(User)           
   bookmark            Bookmark?
   postedMovement      Movement[]
   requestedMovement   RequestedMovement[]
+}
+
+model Admin {
+  id                  Int               @id @default(autoincrement())
+  name                String 
+  email               String
+  password            String
+  role                Role              @default(Admin)
+}
+
+enum Role {
+  User
+  Admin
 }
 
 model Bookmark {
