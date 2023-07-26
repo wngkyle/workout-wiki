@@ -1,10 +1,11 @@
 type Query {
-    movement(filter: String, skip: Int, take: Int): [Movement!]!
+    movement(filter: String, skip: Int, take: Int, orderBy: MovementOrderByInput): [Movement!]!
     user(filter: String, skip: Int, take: Int): [User!]!
     exercise(filter: String, skip: Int, take: Int): [Exercise!]!
     targetMuscle(filter: String, skip: Int, take: Int): [TargetMuscle!]!
     movementPattern(filter: String, skip: Int, take: Int): [MovementPattern!]!
     equipment(filter: String, skip: Int, take: Int): [Equipment!]!
+    bookmark(filter: String): [Bookmark!]!
 }
 
 type Mutation {
@@ -88,4 +89,19 @@ type Equipment {
 type AuthPayload {
     token: String
     user: User
+}
+
+input MovementOrderByInput {
+    name: Sort
+    exercise: Sort
+    targetMuscle: Sort
+    movementPattern: Sort
+    equipment: Sort
+    skillLevel: Sort
+    postedBy: Sort
+}
+
+enum Sort {
+    asc 
+    desc 
 }

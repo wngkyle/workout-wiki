@@ -43,6 +43,7 @@ async function movement(parent, args, context, info) {
         where,
         skip: args.skip,
         take: args.take,
+        orderBy: args.orderBy,
     })
     
     return movements
@@ -112,7 +113,21 @@ async function equipment(parent, args, context, info) {
     return equipments
 }
 
-
+async function bookmark(parent, args, context, info) {
+    const where = args.filter
+        ? {
+            user: {
+                name: { 
+                    contains: args.filter,
+                    mode: 'insensitive',
+                }
+            }
+        } : {}
+    const bookmarks = await context.prisma.bookmark.findMany({
+        where,
+    })
+    return bookmarks
+}
 
 module.exports = {
     user,
@@ -121,4 +136,5 @@ module.exports = {
     targetMuscle,
     movementPattern,
     equipment,
+    bookmark,
 }
