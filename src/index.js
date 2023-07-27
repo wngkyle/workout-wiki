@@ -37,12 +37,11 @@ const server = new ApolloServer({
     ),
     resolvers,
     context: ({req}) => {
-      console.log(req)
       return {
         ...req,
         prisma,
-        userId: 
-          req && req.headers.authorization ? getUserId(req) : null
+        payload: 
+          req && req.headers.authorization ? getUserId(req) : null,
       }
     },
 });

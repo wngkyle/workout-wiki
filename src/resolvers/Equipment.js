@@ -7,8 +7,6 @@ function movement(parent, args, context, info) {
 }
 
 
-
-
 module.exports = {
     movement,
 }

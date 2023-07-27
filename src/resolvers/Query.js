@@ -45,7 +45,6 @@ async function movement(parent, args, context, info) {
         take: args.take,
         orderBy: args.orderBy,
     })
-    
     return movements
 }
 

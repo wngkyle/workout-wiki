@@ -19,7 +19,7 @@ type Mutation {
     addMovementPattern(pattern: String!): MovementPattern
     addEquipment(type: String!): Equipment
     addBookmark(movementName: String, movementId: Int): Bookmark
-    approveBookmark(requestedMovementId: Int, requestedMovementName: String): Movement
+    approveRequestedMovement(requestedMovementId: Int, requestedMovementName: String): Movement
 }
 
 type User {
@@ -81,6 +81,7 @@ type Movement {
     movementPattern: MovementPattern!
     equipment: Equipment!
     postedBy: User!
+    postedByAdmin: Admin
 }
 
 type Exercise {
