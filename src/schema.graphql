@@ -1,6 +1,8 @@
 type Query {
     movement(filter: String, skip: Int, take: Int, orderBy: MovementOrderByInput): [Movement!]!
+    requestedMovement(filter: String, skip: Int, take: Int, orderBy: MovementOrderByInput): [RequestedMovement!]!
     user(filter: String, skip: Int, take: Int): [User!]!
+    admin(filter: String, skip: Int, take: Int): [Admin!]!
     exercise(filter: String, skip: Int, take: Int): [Exercise!]!
     targetMuscle(filter: String, skip: Int, take: Int): [TargetMuscle!]!
     movementPattern(filter: String, skip: Int, take: Int): [MovementPattern!]!
@@ -9,24 +11,24 @@ type Query {
 }
 
 type Mutation {
-    signup(email: String!, password: String!, name: String!): AuthPayload
-    login(email: String!, password: String!): AuthPayload 
-    adminSignUp(email: String!, password: String!, name: String!, adminSignupKey: String!): AdminAuthPayload
-    adminLogin(email: String!, password: String!): AdminAuthPayload
+    signup(email: String!, password: String!, name: String!): AuthPayload!
+    login(email: String!, password: String!): AuthPayload! 
+    adminSignUp(email: String!, password: String!, name: String!, adminSignupKey: String!): AdminAuthPayload!
+    adminLogin(email: String!, password: String!): AdminAuthPayload!
     requestMovement(name: String!, skillLevel: String!, description: String!, exercise: String!, targetMuscle: String!, movementPattern: String!, equipment: String!): RequestedMovement!
-    addExercise(type: String!): Exercise
-    addTargetMuscle(part: String!): TargetMuscle
-    addMovementPattern(pattern: String!): MovementPattern
-    addEquipment(type: String!): Equipment
-    addBookmark(movementName: String, movementId: Int): Bookmark
-    approveRequestedMovement(requestedMovementId: Int, requestedMovementName: String): Movement
+    addExercise(type: String!): Exercise!
+    addTargetMuscle(part: String!): TargetMuscle!
+    addMovementPattern(pattern: String!): MovementPattern!
+    addEquipment(type: String!): Equipment!
+    addBookmark(movementName: String, movementId: Int): Bookmark!
+    approveRequestedMovement(requestedMovementId: Int, requestedMovementName: String): Movement!
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
-    bookmark: Bookmark
+    bookmark: Bookmark!
     postedMovement: [Movement!]!
     requestedMovement: [RequestedMovement!]!
 }
@@ -35,7 +37,7 @@ type Admin {
     id: ID!
     name: String!
     email: String!
-    role: Role     
+    role: Role!     
 }
 
 enum Role {
@@ -44,13 +46,13 @@ enum Role {
 }
 
 type AuthPayload {
-    token: String
-    user: User
+    token: String!
+    user: User!
 }
 
 type AdminAuthPayload {
-    token: String
-    admin: Admin
+    token: String!
+    admin: Admin!
 }
 
 type Bookmark {
@@ -64,10 +66,10 @@ type RequestedMovement {
     name: String!
     skillLevel: String!
     description: String!
-    exercise: Exercise!
-    targetMuscle: TargetMuscle!
-    movementPattern: MovementPattern!
-    equipment: Equipment!
+    exercise: String!
+    targetMuscle: String!
+    movementPattern: String!
+    equipment: String!
     postedBy: User!
 }
 
@@ -81,35 +83,31 @@ type Movement {
     movementPattern: MovementPattern!
     equipment: Equipment!
     postedBy: User!
-    postedByAdmin: Admin
+    postedByAdmin: Admin!
 }
 
 type Exercise {
     id: ID!
     type: String!
     movement: [Movement!]!
-    requestedMovement: [RequestedMovement!]!
 }
 
 type TargetMuscle {
     id: ID!
     part: String!
     movement: [Movement!]!
-    requestedMovement: [RequestedMovement!]!
 }
 
 type MovementPattern {
     id: ID!
     pattern: String!
     movement: [Movement!]!
-    requestedMovement: [RequestedMovement!]!
 }
 
 type Equipment {
     id: ID!
     type: String!
     movement: [Movement!]!
-    requestedMovement: [RequestedMovement!]!
 }
 
 input MovementOrderByInput {

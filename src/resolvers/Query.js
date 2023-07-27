@@ -21,6 +21,30 @@ async function user(parent, args, context, info) {
     return users
 }
 
+async function admin(parent, args, context, info) {
+    const where = args.filter
+        ? {
+            OR: [
+                { name: {
+                    contains: args.filter,
+                    mode: "insensitive",
+                }},
+                { email: {
+                    contains: args.filter,
+                    mode: "insensitive",
+                }}
+            ]
+        } : {}
+
+    const admins = await context.prisma.admin.findMany({
+        where: where,
+        skip: args.skip,
+        take: args.take
+    })
+
+    return admins
+}
+
 async function movement(parent, args, context, info) {
     const where = args.filter
         ? { 
@@ -46,6 +70,29 @@ async function movement(parent, args, context, info) {
         orderBy: args.orderBy,
     })
     return movements
+}
+
+async function requestedMovement(parent, args, context, info) {
+    const where = args.filter
+        ? {
+            OR: [
+                { name: { 
+                    contains: args.filter,
+                    mode: 'insensitive', 
+                } },
+                { description: { 
+                    contains: args.filter,
+                    mode: 'insensitive', 
+                } },
+            ]
+        } : {}
+    const requestedMovements = await context.prisma.requestedMovement.findMany({
+        where: where,
+        skip: args.skip,
+        take: args.take,
+        orderBy: args.orderBy,
+    })
+    return requestedMovements
 }
 
 async function exercise(parent, args, context, info) {
@@ -130,7 +177,9 @@ async function bookmark(parent, args, context, info) {
 
 module.exports = {
     user,
+    admin,
     movement,
+    requestedMovement,
     exercise,
     targetMuscle,
     movementPattern,

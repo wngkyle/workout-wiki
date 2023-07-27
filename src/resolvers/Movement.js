@@ -38,10 +38,19 @@ function postedBy(parent, args, context, info) {
     }).postedBy()
 }
 
+function postedByAdmin(parent, args, context, info) {
+    return context.prisma.movement.findUnique({
+        where: {
+            id: parent.id
+        }
+    }).postedByAdmin()
+}
+
 module.exports = {
     exercise,
     targetMuscle,
     movementPattern,
     equipment,
     postedBy,
+    postedByAdmin,
 }

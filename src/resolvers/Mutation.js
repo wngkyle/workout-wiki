@@ -139,7 +139,7 @@ async function approveRequestedMovement(parent, args, context, info) {
     } else if (requestedMovement.length > 1) {
         throw new Error("More than one movement is found, please specify or use requestedMovementId field")
     }
-    
+
     let exercise = await context.prisma.exercise.findFirst({
         where: {
             type: requestedMovement[0].exercise
