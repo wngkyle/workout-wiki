@@ -1,0 +1,96 @@
+type Query {
+    feed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed!
+    showAllUsers: [User!]!
+    link(id: Int!): Link
+    show(filter: String, skip: Int, take: Int, orderBy: MovementOrderByInput): [Movement!]!
+    movement(id: Int!): Movement
+}
+
+type Mutation {
+    post(url: String!, description: String!): Link!
+    signup(email: String!, password: String!, name: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload 
+    addmovement(name: String!, exercise: String!, targetMuscle: String!, movementPattern: String!, equipment: String!, skillLevel: String!, description: String!): Movement!
+    deleteMovement(id: Int!): Movement
+    vote(linkId: ID!): Vote
+    like(movementId: ID!): Like
+}
+
+type Subscription {
+    newLink: Link
+    newVote: Vote
+    newMovement: Movement
+    newLike: Like
+}
+
+type Link {
+    id: ID!
+    description: String!
+    url: String!
+    postedBy: User
+    votes: [Vote!]!
+}
+
+type Movement {
+    id: ID!
+    name: String!
+    exercise: String!
+    targetMuscle: String!
+    movementPattern: String!
+    equipment: String!
+    skillLevel: String!
+    description: String!
+    postedBy: User
+    likes: [Like!]!
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    links: [Link!]!
+    movements: [Movement!]!
+}
+
+type AuthPayload {
+    token: String
+    user: User
+}
+
+type Vote {
+    id: ID!
+    link: Link!
+    user: User!
+}
+
+type Like {
+    id: ID!
+    movement: Movement!
+    user: User!
+}
+
+input LinkOrderByInput {
+    description: Sort
+    url: Sort
+    createdAt: Sort
+}
+
+enum Sort {
+    asc
+    desc
+}
+
+type Feed {
+    links: [Link!]!
+    count: Int!
+}
+
+input MovementOrderByInput {
+    name: Sort
+    exercise: Sort
+    targetMuscle: Sort
+    movementPattern: Sort
+    equipment: Sort
+    skillLevel: Sort
+    createdAt: Sort
+}
